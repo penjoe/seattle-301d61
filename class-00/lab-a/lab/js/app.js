@@ -66,7 +66,7 @@ function handleClick(event) {
   for(var i = 0; i < names.length; i++){
     if(event.target.id === allProducts[i].name) {
       allProducts[i].votes += 1;
-      console.log(event.target.id + ' has ' + allProducts[i].votes + ' votes in ' + allProducts[i].views + ' views');
+      console.log(`event.target.id + ' has ' + allProducts[i].votes + ' votes in ' + allProducts[i].views + ' views'`);
     }
   }
   localStorage.busmall = JSON.stringify(allProducts);
@@ -78,7 +78,7 @@ function showList() {
   // a loop's initializer can not be a const as it needs to be able to change as the loop increments
   for(var i = 0; i < allProducts.length; i++) {
     const liEl = document.createElement('li');
-    liEl.textContent = allProducts[i].name + ' has ' + allProducts[i].votes + ' votes in ' + allProducts[i].views + ' views';
+    liEl.textContent = `allProducts[i].name + ' has ' + allProducts[i].votes + ' votes in ' + allProducts[i].views + ' views'`;
     list.appendChild(liEl);
   }
 }
