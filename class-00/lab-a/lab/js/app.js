@@ -1,20 +1,22 @@
 'use strict';
 
-let names = ['bag', 'banana', 'bathroom', 'boots', 'breakfast', 'bubblegum', 'chair', 'cthulhu', 'dog-duck', 'dragon', 'pen', 'pet-sweep', 'scissors', 'shark', 'sweep', 'tauntaun', 'unicorn', 'usb', 'water-can', 'wine-glass'];
+const names = ['bag', 'banana', 'bathroom', 'boots', 'breakfast', 'bubblegum', 'chair', 'cthulhu', 'dog-duck', 'dragon', 'pen', 'pet-sweep', 'scissors', 'shark', 'sweep', 'tauntaun', 'unicorn', 'usb', 'water-can', 'wine-glass'];
 
-let leftImage = document.getElementById('left');
-let centerImage = document.getElementById('center');
-let rightImage = document.getElementById('right');
+const leftImage = document.getElementById('left');
+const centerImage = document.getElementById('center');
+const rightImage = document.getElementById('right');
 
-let allProducts = [];
-let container = document.getElementById('image_container');
-let viewed = [];
-let labels = [];
-let pics = [leftImage, centerImage, rightImage];
-let list = document.getElementById('productlist');
-let totalClicks = 0;
-let views = [];
-let votes = [];
+// having 'allProducts' as a const prevents it from being parsed to/from local storage because it is trying to change the value of the const
+var allProducts = [];
+const container = document.getElementById('image_container');
+const viewed = [];
+const labels = [];
+const pics = [leftImage, centerImage, rightImage];
+const list = document.getElementById('productlist');
+// making the below variable a const would not allow the value to be reassigned within the click handler line 56
+var totalClicks = 0;
+const views = [];
+const votes = [];
 
 function Product(name) {
   this.name = name;
@@ -30,18 +32,19 @@ function makeRandom() {
 
 function displayPics(){
   while(viewed.length < 6){
-    let rando = makeRandom();
+    const rando = makeRandom();
     while(!viewed.includes(rando)){
       viewed.push(rando);
     }
   }
-  // console.log(rando);
+  
   // TODO: In a sentence or two, explain why the previous line of code threw an error when we changed the letiable declaration from `let to `let`.
   // The reason the console.log from line 38 threw an error was because of the scope of 'let' on line 33. Changing that from a var declaration to a let declaration limited the cope of that declaration to strictly within that code block.
   console.log(viewed);
 
-  for (let i = 0; i < 3; i++){
-    let temp = viewed.shift();
+  // const would not allow the below for loop's initializer to change as the loop increments
+  for (var i = 0; i < 3; i++){
+    const temp = viewed.shift();
     pics[i].src = allProducts[temp].path;
     pics[i].id = allProducts[temp].name;
     allProducts[temp].views += 1;
@@ -59,7 +62,8 @@ function handleClick(event) {
     showList();
     makeChart();
   }
-  for(let i = 0; i < names.length; i++){
+  // a loop's initializer can not be a const as it needs to be able to change as the loop increments
+  for(var i = 0; i < names.length; i++){
     if(event.target.id === allProducts[i].name) {
       allProducts[i].votes += 1;
       console.log(event.target.id + ' has ' + allProducts[i].votes + ' votes in ' + allProducts[i].views + ' views');
@@ -71,8 +75,9 @@ function handleClick(event) {
 }
 
 function showList() {
-  for(let i = 0; i < allProducts.length; i++) {
-    let liEl = document.createElement('li');
+  // a loop's initializer can not be a const as it needs to be able to change as the loop increments
+  for(var i = 0; i < allProducts.length; i++) {
+    const liEl = document.createElement('li');
     liEl.textContent = allProducts[i].name + ' has ' + allProducts[i].votes + ' votes in ' + allProducts[i].views + ' views';
     list.appendChild(liEl);
   }
@@ -88,7 +93,7 @@ function makeChartData(){
 
 function makeChart(){
   makeChartData();
-  let ctx = document.getElementById('chartypants').getContext('2d');
+  const ctx = document.getElementById('chartypants').getContext('2d');
   new Chart(ctx, { //eslint-disable-line
     type: 'bar',
     data: {
@@ -128,7 +133,8 @@ if(localStorage.busmall){
   allProducts = JSON.parse(localStorage.busmall);
 } else {
   console.log('There is no local storage data; initialize app by creating instances');
-  for(let i = 0; i < names.length; i++) {
+  // const would not allow the below for loops initializer to change as the loop increments
+  for(var i = 0; i < names.length; i++) {
     new Product(names[i]);
   }
 }
